@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #e9ecf4;
+    color: #000;
+}
+
+.app .header h1 {
+    text-align: center;
+}
+
+.app {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: grid;
+    gap: 20px;
+
+    grid-template-columns: 1fr 1fr;
+
+    grid-template-areas: "header header"
+                         /* "search search" */
+                         "list   card-pokemon";
+    
+}
+
+.app > div {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+
+.app .header {
+    grid-area: header;
+}
+
+/* .app .search-bar {
+    grid-area: search;
+} */
+
+.app .list {
+    grid-area: list;
+}
+
+.app .card-pokemon {
+    grid-area: card-pokemon;
+}
+
+.app .card-pokemon > div {
+    background: rgb(170, 200, 255);
+    padding: 10px;
+    margin: 5px;
+    border-radius: 4px
+}
+
+.app .card-pokemon .image img {
+    width: 40%;
+    border: solid 2px #000
+}
+
+.app .card-pokemon .ability-info table {
+    table-layout: auto;
+    width: 100%;
+}
+
+
+
+
+
