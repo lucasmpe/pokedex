@@ -1,6 +1,4 @@
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
-
-const $searchButton = document.querySelector('#search');
 const $pokemonList = document.querySelector('.list');
 const $cardPokemon = document.querySelector('.card-pokemon');
 let $activeItem = null;
@@ -52,17 +50,6 @@ function handlerListPokemons(response) {
     };
 }
 
-function handlerSearchPokemon() {
-    $searchButton.onclick = function(e) {
-        e.preventDefault();
-        const pokemonName = document.querySelector('form input').value;
-        getPokemon(pokemonName.toLowerCase());
-        if ($activeItem) {
-            $activeItem.classList.remove('active');
-        }
-    };
-}
-
 function setActiveItem(item) {
     item.classList.add('active');
     $activeItem = item;
@@ -98,4 +85,3 @@ function showPokemon(pokemon) {
 
 getPokemons();
 handlerListPokemons();
-handlerSearchPokemon();

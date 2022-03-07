@@ -22,7 +22,6 @@ body {
     grid-template-columns: 1fr 1fr;
 
     grid-template-areas: "header header"
-                         /* "search search" */
                          "list   card-pokemon";
     
 }
@@ -37,10 +36,6 @@ body {
 .app .header {
     grid-area: header;
 }
-
-/* .app .search-bar {
-    grid-area: search;
-} */
 
 .app .list {
     grid-area: list;
@@ -66,8 +61,3 @@ body {
     table-layout: auto;
     width: 100%;
 }
-
-
-
-
-
