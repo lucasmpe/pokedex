@@ -23,10 +23,9 @@ function getPokemon(name) {
 function listPokemons(pokemons) {
     $pokemonList.firstElementChild.innerHTML = "";
     pokemons.forEach((pokemon) => createItemList(pokemon));
- 
 }
 
-function createItemList(pokemon) {    
+function createItemList(pokemon) {
     const $item = document.createElement('a');
     $item.href = '#card';
     $item.classList = 'list-group-item list-group-item-action';
@@ -35,15 +34,15 @@ function createItemList(pokemon) {
 }
 
 function handlerListPokemons(response) {
-    $pokemonList.firstElementChild.onclick = function(e) {
-       $activeItem ? changeActiveItem(e.target) : setActiveItem(e.target);
-       getPokemon($activeItem.innerText.toLowerCase());
+    $pokemonList.firstElementChild.onclick = function (e) {
+        $activeItem ? changeActiveItem(e.target) : setActiveItem(e.target);
+        getPokemon($activeItem.innerText.toLowerCase());
     };
 
-    $pokemonList.lastElementChild.onclick = function(e) {
+    $pokemonList.lastElementChild.onclick = function (e) {
         if (e.target.classList.contains('previous') && response.previous) {
             getPokemons(response.previous.replace(BASE_URL, ''));
-        }    
+        }
         if (e.target.classList.contains('next') && response.next) {
             getPokemons(response.next.replace(BASE_URL, ''));
         }
@@ -61,18 +60,20 @@ function changeActiveItem(selectedItem) {
 }
 
 function showPokemon(pokemon) {
+    document.querySelector('.ability-info').classList.remove('invisible');
+
     const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
     const image = pokemon.sprites.other['official-artwork'].front_default;
     const $ability = $cardPokemon.querySelectorAll('.ability-info tbody > tr > td');
     const $typeList = $cardPokemon.querySelector('.type ul')
 
     $cardPokemon.querySelector('.name h3').innerText = `${name} N° ${pokemon.id}`;
-    
+
     $cardPokemon.querySelector('.image img').src = image;
     $cardPokemon.querySelector('.image img').alt = name;
 
-    $ability[0].innerText = `${pokemon.height/10} m`;
-    $ability[1].innerText = `${pokemon.weight/10} kg`;
+    $ability[0].innerText = `${pokemon.height / 10} m`;
+    $ability[1].innerText = `${pokemon.weight / 10} kg`;
 
     $typeList.innerHTML = "";
     pokemon.types.forEach((type) => {
@@ -80,7 +81,7 @@ function showPokemon(pokemon) {
         $type.innerHTML = type.type.name;
         $typeList.appendChild($type);
     });
-   
+
 }
 
 getPokemons();
