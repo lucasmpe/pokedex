@@ -1,87 +1,114 @@
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
 const $pokemonList = document.querySelector('.list');
-const $cardPokemon = document.querySelector('.card-pokemon');
-let $activeItem = null;
 
-function getPokemons(endPoint = '?offset=0&limit=10') {
-  fetch(BASE_URL + endPoint)
-    .then((response) => response.json())
-    .then((response) => {
-      listPokemons(response.results);
-      handlerListPokemons(response);
-    })
-    .catch((error) => console.error(error));
-}
-
-function getPokemon(name) {
-  fetch(BASE_URL + name)
-    .then((response) => response.json())
-    .then((response) => showPokemon(response))
-    .catch((error) => console.error(error));
-}
-
-function listPokemons(pokemons) {
-  $pokemonList.firstElementChild.innerHTML = '';
-  pokemons.forEach((pokemon) => createItemList(pokemon));
+async function getPokemons(endPoint) {
+  const response = await fetch(BASE_URL + endPoint);
+  return await response.json();
 }
 
 function createItemList(pokemon) {
   const $item = document.createElement('a');
+  $item.id = pokemon.url.replace(BASE_URL, '').split('/')[0];
   $item.href = '#card';
   $item.classList = 'list-group-item list-group-item-action';
   $item.innerHTML = pokemon.name.toUpperCase();
   $pokemonList.firstElementChild.appendChild($item);
 }
 
-function handlerListPokemons(response) {
+function generateEndPonint() {
+  const page = $pokemonList.dataset.pageNumber;
+  const limit = 10;
+  const offset = (page-1)*limit;
+  return `?offset=${offset}&limit=${limit}`;
+}
+
+function listPokemons() {
+  $pokemonList.firstElementChild.innerHTML = '';
+  getPokemons(generateEndPonint()).then((response) => {
+    response.results.forEach((pokemon) => createItemList(pokemon));
+    $pokemonList.dataset.nextPage = response.next;
+    $pokemonList.dataset.previousPage = response.previous;
+  });
+}
+
+function handlerListPokemons() {
+
   $pokemonList.firstElementChild.onclick = function (e) {
+    const $activeItem = document.querySelector('.list-group-item.active');
     $activeItem ? changeActiveItem(e.target) : setActiveItem(e.target);
-    getPokemon($activeItem.innerText.toLowerCase());
+    getPokemons(getActiveItem().id)
+      .then((response) => {
+        createCard(response);
+        showCard();
+      });
   };
 
   $pokemonList.lastElementChild.onclick = function (e) {
-    if (e.target.classList.contains('previous') && response.previous) {
-      getPokemons(response.previous.replace(BASE_URL, ''));
+    if (e.target.classList.contains('previous') && $pokemonList.dataset.previousPage !== "null") {
+      $pokemonList.dataset.pageNumber--;
     }
-    if (e.target.classList.contains('next') && response.next) {
-      getPokemons(response.next.replace(BASE_URL, ''));
+    if (e.target.classList.contains('next') && $pokemonList.dataset.nextPage !== "null") {
+      $pokemonList.dataset.pageNumber++;
     }
+    listPokemons();
   };
+}
+
+function getActiveItem() {
+  return document.querySelector('.list-group-item.active');
 }
 
 function setActiveItem(item) {
   item.classList.add('active');
-  $activeItem = item;
 }
 
 function changeActiveItem(selectedItem) {
-  $activeItem.classList.remove('active');
+  getActiveItem().classList.remove('active');
   setActiveItem(selectedItem);
 }
 
-function showPokemon(pokemon) {
-  document.querySelector('.ability-info').classList.remove('invisible');
+function showCard() {
+  document.querySelector('#card').classList.remove('invisible');
+}
 
-  const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-  const image = pokemon.sprites.other['official-artwork'].front_default;
-  const $ability = $cardPokemon.querySelectorAll('.ability-info tbody > tr > td');
-  const $typeList = $cardPokemon.querySelector('.type ul');
+function setNameCard(name, id) {
+  const $cardPokemon = document.querySelector('.card-pokemon');
+  $cardPokemon.querySelector('.name h3').innerText = `${name.charAt(0).toUpperCase() + name.slice(1)} N° ${id}`;
+}
 
-  $cardPokemon.querySelector('.name h3').innerText = `${name} N° ${pokemon.id}`;
-
+function setImageCard(image) {
+  const $cardPokemon = document.querySelector('.card-pokemon');
   $cardPokemon.querySelector('.image img').src = image;
-  $cardPokemon.querySelector('.image img').alt = name;
+}
 
-  $ability[0].innerText = `${pokemon.height / 10} m`;
-  $ability[1].innerText = `${pokemon.weight / 10} kg`;
+function setAbilityCard(height, weight) {
+  const $cardPokemon = document.querySelector('.card-pokemon');
+  const $ability = $cardPokemon.querySelectorAll('.ability-info tbody > tr > td');
+  $ability[0].innerText = `${height / 10} m`;
+  $ability[1].innerText = `${weight / 10} kg`;
+}
 
+function setTypeCard(types) {
+  const $cardPokemon = document.querySelector('.card-pokemon');
+  const $typeList = $cardPokemon.querySelector('.type ul');
   $typeList.innerHTML = '';
-  pokemon.types.forEach((type) => {
+  types.forEach((type) => {
     const $type = document.createElement('li');
-    $type.innerHTML = type.type.name;
+    $type.innerHTML = type.name;
     $typeList.appendChild($type);
   });
 }
 
-getPokemons();
-handlerListPokemons();
+function createCard(pokemon) {
+  setNameCard(pokemon.name, pokemon.id);
+  setImageCard(pokemon.sprites.other['official-artwork'].front_default);
+  setAbilityCard(pokemon.height, pokemon.weight);
+  setTypeCard(pokemon.types);
+}
+
+function initialize() {
+  listPokemons();
+  handlerListPokemons();
+}
+
+initialize();
