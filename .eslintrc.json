@@ -10,5 +10,9 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+    },
+    "error": { 
+        "allowShortCircuit": true,
+        "allowTernary": true
     }
 }
