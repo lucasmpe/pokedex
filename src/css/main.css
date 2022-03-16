@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #e9ecf4;
+    color: #000;
+}
+
+.app .header h1 {
+    text-align: center;
+}
+
+.app {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: grid;
+    gap: 20px;
+
+    grid-template-columns: 1fr 1fr;
+
+    grid-template-areas: "header header"
+                         "list   card-pokemon";
+    
+}
+
+.app > div {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.app .header {
+    grid-area: header;
+}
+
+.app .list {
+    grid-area: list;
+}
+
+.app .card-pokemon {
+    grid-area: card-pokemon;
+}
+
+.app .card-pokemon > div {
+    padding: 10px;
+    margin: 5px;
+}
+
+.app .card-pokemon .name {
+    text-align: center;
+}
+
+.app .card-pokemon .detail {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+.app .card-pokemon .detail > div {
+    padding: 10px;
+    margin: 5px;
+}
+
+.app .card-pokemon .detail .image img {
+    width: 100%;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.app .card-pokemon .detail .ability-info {
+    background: #0d6efd;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.app .card-pokemon .detail .ability-info table {
+    table-layout: auto;
+    min-width: 150px;
+}
+
+.app .card-pokemon .detail .ability-info table tbody > tr {
+    height: 40px;
+}
