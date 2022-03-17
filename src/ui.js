@@ -1,42 +1,45 @@
 import { BASE_URL } from './api.js';
 
-export const $pokemonList = document.querySelector('.list');
+const $pokemonList = document.querySelector('.list');
 
-export function createList(response) {
+export function listPokemons(response, callbackSelectPokemon) {
     $pokemonList.firstElementChild.innerHTML = '';
-    response.results.forEach((pokemon) => createItemList(pokemon));
+    response.results.forEach((pokemon) => createItemList(pokemon, callbackSelectPokemon));
     $pokemonList.dataset.nextPage = response.next;
     $pokemonList.dataset.previousPage = response.previous;
 }
 
-export function generateEndPonint() {
+export function generateEndPoint() {
     const page = $pokemonList.dataset.pageNumber;
     const limit = 10;
     const offset = (page - 1) * limit;
     return `?offset=${offset}&limit=${limit}`;
 }
 
-function createItemList(pokemon) {
+function createItemList(pokemon, callbackSelectPokemon) {
     const $item = document.createElement('a');
     $item.id = pokemon.url.replace(BASE_URL, '').split('/')[0];
     $item.href = '#card';
     $item.classList = 'list-group-item list-group-item-action';
     $item.innerHTML = pokemon.name.toUpperCase();
+    $item.addEventListener('click', () => {
+        getActiveItem() ? changeActiveItem($item) : setActiveItem($item);
+        callbackSelectPokemon($item.id);
+    });
     $pokemonList.firstElementChild.appendChild($item);
 }
 
-export function updateItemActive(event) {
-    const $activeItem = document.querySelector('.list-group-item.active');
-    $activeItem ? changeActiveItem(event.target) : setActiveItem(event.target);
-}
-
-export function updatePageNumber(event) {
-    if (event.target.classList.contains('previous') && $pokemonList.dataset.previousPage !== "null") {
-        $pokemonList.dataset.pageNumber--;
-    }
-    if (event.target.classList.contains('next') && $pokemonList.dataset.nextPage !== "null") {
-        $pokemonList.dataset.pageNumber++;
-    }
+export function updatePage(callbackSelectPage) {
+    document.querySelector('.pagination').addEventListener('click', (e) => {
+        console.log(e, e.target);
+        if (e.target.classList.contains('previous') && $pokemonList.dataset.previousPage !== "null") {
+            $pokemonList.dataset.pageNumber--;
+        }
+        if (e.target.classList.contains('next') && $pokemonList.dataset.nextPage !== "null") {
+            $pokemonList.dataset.pageNumber++;
+        }
+    });
+    callbackSelectPage;
 }
 
 export function getActiveItem() {
@@ -52,7 +55,11 @@ function changeActiveItem(selectedItem) {
     setActiveItem(selectedItem);
 }
 
-export function showCard() {
+export function showCard(pokemon) {
+    setNameCard(pokemon.name, pokemon.id);
+    setImageCard(pokemon.sprites.other['official-artwork'].front_default);
+    setAbilityCard(pokemon.height, pokemon.weight);
+    setTypeCard(pokemon.types);
     document.querySelector('#card').classList.remove('invisible');
 }
 
@@ -82,11 +89,4 @@ function setTypeCard(types) {
         $type.innerHTML = type.type.name;
         $typeList.appendChild($type);
     });
-}
-
-export function createCard(pokemon) {
-    setNameCard(pokemon.name, pokemon.id);
-    setImageCard(pokemon.sprites.other['official-artwork'].front_default);
-    setAbilityCard(pokemon.height, pokemon.weight);
-    setTypeCard(pokemon.types);
 }
