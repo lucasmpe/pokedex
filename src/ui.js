@@ -31,15 +31,17 @@ function createItemList(pokemon, callbackSelectPokemon) {
 
 export function updatePage(callbackSelectPage) {
     document.querySelector('.pagination').addEventListener('click', (e) => {
+
         console.log(e, e.target);
+        
         if (e.target.classList.contains('previous') && $pokemonList.dataset.previousPage !== "null") {
             $pokemonList.dataset.pageNumber--;
         }
         if (e.target.classList.contains('next') && $pokemonList.dataset.nextPage !== "null") {
-            $pokemonList.dataset.pageNumber++;
+            $pokemonList.dataset.pageNumber++;;
         }
+        callbackSelectPage
     });
-    callbackSelectPage;
 }
 
 export function getActiveItem() {

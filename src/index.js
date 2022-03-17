@@ -11,9 +11,18 @@ async function updateCard(id) {
   showCard(await getPokemons(id));
 }
 
-async function initialize() {
+async function updateList() {
   listPokemons(await getPokemons(generateEndPoint()), updateCard);
-  updatePage();
 }
+
+function initialize() {
+  updateList();
+  updatePage(updateList);
+}
+
+// async function initialize() {
+//   listPokemons(await getPokemons(generateEndPoint()), updateCard);
+//   updatePage(initialize);
+// }
 
 initialize();
