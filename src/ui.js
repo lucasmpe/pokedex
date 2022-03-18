@@ -1,5 +1,3 @@
-import { BASE_URL } from './api.js';
-
 const $pokemonList = document.querySelector('.list');
 
 export function listPokemons(response, callbackSelectPokemon) {
@@ -9,16 +7,13 @@ export function listPokemons(response, callbackSelectPokemon) {
     $pokemonList.dataset.previousPage = response.previous;
 }
 
-export function generateEndPoint() {
-    const page = $pokemonList.dataset.pageNumber;
-    const limit = 10;
-    const offset = (page - 1) * limit;
-    return `?offset=${offset}&limit=${limit}`;
+export function getPageNumber() {
+    return $pokemonList.dataset.pageNumber;
 }
 
 function createItemList(pokemon, callbackSelectPokemon) {
     const $item = document.createElement('a');
-    $item.id = pokemon.url.replace(BASE_URL, '').split('/')[0];
+    $item.id = pokemon.url.split('pokemon')[1].replaceAll('/', '');
     $item.href = '#card';
     $item.classList = 'list-group-item list-group-item-action';
     $item.innerHTML = pokemon.name.toUpperCase();
@@ -32,15 +27,13 @@ function createItemList(pokemon, callbackSelectPokemon) {
 export function updatePage(callbackSelectPage) {
     document.querySelector('.pagination').addEventListener('click', (e) => {
 
-        console.log(e, e.target);
-        
         if (e.target.classList.contains('previous') && $pokemonList.dataset.previousPage !== "null") {
             $pokemonList.dataset.pageNumber--;
         }
         if (e.target.classList.contains('next') && $pokemonList.dataset.nextPage !== "null") {
-            $pokemonList.dataset.pageNumber++;;
+            $pokemonList.dataset.pageNumber++;
         }
-        callbackSelectPage
+        callbackSelectPage();
     });
 }
 

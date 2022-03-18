@@ -1,7 +1,7 @@
-import { getPokemons } from './api.js';
+import { generateEndPoint, getPokemons } from './api.js';
 
 import {
-  generateEndPoint,
+  getPageNumber,
   listPokemons,
   showCard,
   updatePage
@@ -12,17 +12,12 @@ async function updateCard(id) {
 }
 
 async function updateList() {
-  listPokemons(await getPokemons(generateEndPoint()), updateCard);
+  listPokemons(await getPokemons(generateEndPoint(getPageNumber())), updateCard);
 }
 
 function initialize() {
   updateList();
   updatePage(updateList);
 }
-
-// async function initialize() {
-//   listPokemons(await getPokemons(generateEndPoint()), updateCard);
-//   updatePage(initialize);
-// }
 
 initialize();
