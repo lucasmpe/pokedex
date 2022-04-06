@@ -4,6 +4,7 @@
   "description": "Tarea clase 12 del curso r/Argentina Programa",
   "main": "index.js",
   "scripts": {
+    "cypress-dev": "cypress open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/lucasmpe/pokedex#readme",
   "devDependencies": {
+    "cypress": "^9.5.3",
     "eslint": "^8.11.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4"
