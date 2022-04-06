@@ -23,11 +23,12 @@ function setAbilityCard(height, weight) {
 }
 
 function setTypeCard(types) {
-    const $typeList = $cardPokemon.querySelector('.type ul');
-    $typeList.innerHTML = '';
+    const $types = $cardPokemon.querySelector('.type');
+    $types.innerHTML = '';
     types.forEach((type) => {
-        const $type = document.createElement('li');
-        $type.innerHTML = type.type.name;
-        $typeList.appendChild($type);
+        const $type = document.createElement('span');
+        $type.className = `badge ${type.type.name} type`;
+        $type.textContent = type.type.name;
+        $types.appendChild($type);
     });
 }
