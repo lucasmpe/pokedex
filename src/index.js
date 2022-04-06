@@ -1,18 +1,16 @@
-import { generateEndPoint, getPokemons } from './api.js';
-
-import {
-  getPageNumber,
-  listPokemons,
-  showCard,
-  updatePage
-} from './ui.js';
+import getPokemons from './servicios/pokemon.js';
+import { generateEndPoint } from './utilidades/utilidades.js';
+import showCard from './ui/pokemon.js';
+import listPokemons from './ui/listado.js';
+import updatePage from './ui/paginador.js';
 
 async function updateCard(id) {
   showCard(await getPokemons(id));
 }
 
 async function updateList() {
-  listPokemons(await getPokemons(generateEndPoint(getPageNumber())), updateCard);
+  listPokemons(await getPokemons(generateEndPoint()), updateCard)
+    .catch((e) => console.error(e));
 }
 
 function initialize() {
