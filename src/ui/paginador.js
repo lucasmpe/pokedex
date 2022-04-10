@@ -66,9 +66,7 @@ function updateNumericItemsPage(newPage) {
 
   document.querySelectorAll('.pagination li.numeric a').forEach((item, index) => {
     item.textContent = numericItems[index];
-    console.log(item);
     if (numericItems[index] === newPage) {
-      console.log(item);
       setActiveNumericItem(item);
     }
   });
