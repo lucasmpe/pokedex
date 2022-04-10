@@ -40,6 +40,10 @@ body {
     grid-area: list;
 }
 
+.app nav {
+    margin: 20px;
+}
+
 .app .card-pokemon {
     grid-area: card-pokemon;
 }
