@@ -7,6 +7,7 @@ export default function listPokemons(response, callbackSelectPokemon) {
     response.results.forEach((pokemon) => createItemList(pokemon, callbackSelectPokemon));
     $pokemonList.dataset.nextPage = response.next;
     $pokemonList.dataset.previousPage = response.previous;
+    $pokemonList.dataset.count = response.count;
 }
 
 function createItemList(pokemon, callbackSelectPokemon) {
