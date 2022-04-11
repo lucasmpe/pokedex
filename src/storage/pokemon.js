@@ -20,5 +20,10 @@ export function savePokemons(endPoint, pokemons) {
   if (typeof pokemons !== 'object') {
     throw new Error('Se necesita un pokemon para guardar en localStorage');
   }
-  localStorage.setItem(getKey(endPoint), JSON.stringify(pokemons));
+  try {
+    localStorage.setItem(getKey(endPoint), JSON.stringify(pokemons));
+  } catch (e) {
+    console.log(e, 'No se pudo almacenar localmente.');
+  }
+  
 }
