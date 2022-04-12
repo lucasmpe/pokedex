@@ -1,10 +1,10 @@
-const $pokemonList = document.querySelector('.list');
 const TOTAL_NUMERIC_ITEMS = 3;
 const FIRST_PAGE = 1;
 const LAST_PAGE = 113;
 
 export default function updatePage(callbackSelectPage) {
   document.querySelector('.pagination').addEventListener('click', (e) => {
+    const $pokemonList = document.querySelector('.list');
     const item = e.target.textContent;
     if (item === $pokemonList.dataset.pageNumber) return;
 
@@ -28,6 +28,7 @@ function isAdjacent(itemsPage, newPage) {
 }
 
 function updateDatasetNumericItems(numericItems, newPage) {
+  const $pokemonList = document.querySelector('.list');
   if (isAdjacent(numericItems, newPage)) {
     if (numericItems.every((item) => (item < newPage))) {
       numericItems.shift();
@@ -58,6 +59,7 @@ function setActiveNumericItem(item) {
 }
 
 function updateNumericItemsPage(newPage) {
+  const $pokemonList = document.querySelector('.list');
   let numericItems = $pokemonList.dataset.numericItems.split(' ').map(item => Number(item));
 
   if (!numericItems.includes(newPage)) {
@@ -91,6 +93,7 @@ function updateShortcutItemsPage(newPage) {
 }
 
 function updatePaginator() {
+  const $pokemonList = document.querySelector('.list');
   const newPage = Number($pokemonList.dataset.pageNumber);
   updateNumericItemsPage(newPage);
   updateShortcutItemsPage(newPage);
