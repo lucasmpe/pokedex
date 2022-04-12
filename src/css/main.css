@@ -95,6 +95,14 @@ body {
     height: 40px;
 }
 
+@media screen and (max-width: 992px) {
+    .app {
+        grid-template-areas: "header        header"
+                             "list          list"
+                             "card-pokemon  card-pokemon";
+    }
+}
+
 .type {
     color: white;
     margin: 5px;
