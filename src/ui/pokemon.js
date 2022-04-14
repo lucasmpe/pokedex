@@ -1,6 +1,6 @@
 export default function showCard(pokemon) {
     setNameCard(pokemon.name, pokemon.id);
-    setImageCard(pokemon.sprites.other['official-artwork'].front_default);
+    setImageCard(pokemon.picture);
     setAbilityCard(pokemon.height, pokemon.weight);
     setTypeCard(pokemon.types);
     document.querySelector('#card').classList.remove('invisible');
@@ -27,8 +27,8 @@ function setTypeCard(types) {
     $types.innerHTML = '';
     types.forEach((type) => {
         const $type = document.createElement('span');
-        $type.className = `badge ${type.type.name} type`;
-        $type.textContent = type.type.name;
+        $type.className = `badge ${type} type`;
+        $type.textContent = type;
         $types.appendChild($type);
     });
 }
