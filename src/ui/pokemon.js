@@ -1,6 +1,6 @@
 export default function showCard(pokemon) {
     setNameCard(pokemon.name, pokemon.id);
-    setImageCard(pokemon.sprites.other['official-artwork'].front_default);
+    setImageCard(pokemon.picture);
     setAbilityCard(pokemon.height, pokemon.weight);
     setTypeCard(pokemon.types);
     document.querySelector('#card').classList.remove('invisible');
@@ -23,11 +23,12 @@ function setAbilityCard(height, weight) {
 }
 
 function setTypeCard(types) {
-    const $typeList = $cardPokemon.querySelector('.type ul');
-    $typeList.innerHTML = '';
+    const $types = $cardPokemon.querySelector('.type');
+    $types.innerHTML = '';
     types.forEach((type) => {
-        const $type = document.createElement('li');
-        $type.innerHTML = type.type.name;
-        $typeList.appendChild($type);
+        const $type = document.createElement('span');
+        $type.className = `badge ${type} type`;
+        $type.textContent = type;
+        $types.appendChild($type);
     });
 }

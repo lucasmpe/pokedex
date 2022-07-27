@@ -9,8 +9,7 @@ async function updateCard(id) {
 }
 
 async function updateList() {
-  listPokemons(await getPokemons(generateEndPoint()), updateCard)
-    .catch((e) => console.error(e));
+  listPokemons(await getPokemons(generateEndPoint()), updateCard);
 }
 
 function initialize() {
