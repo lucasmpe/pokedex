@@ -30,17 +30,13 @@ describe('Pokedex', () => {
 
     cy.get('#card').should('not.have.class', 'invisible');
 
-    cy.get('.type li').should('have.length', COUNT_TYPES);
+    cy.get('.type span').should('have.length', COUNT_TYPES);
   });
 
   it('Usa el paginador', () => {
     
     cy.intercept('https://pokeapi.co/api/v2/pokemon/?offset=10&limit=10', { fixture: 'listado-pagina-2.json' })
       .as('segundaPagina');
-
-    cy.get('.previous')
-      .click();
-    cy.get('.list-group-item:nth(0)').should('have.text', 'BULBASAUR');
 
     cy.get('.next')
       .click();
